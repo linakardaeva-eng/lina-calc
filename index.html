@@ -3,55 +3,167 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Калькуляторы Лины Кардаевой</title>
-<meta name="description" content="Бесплатные калькуляторы для собственника: где бизнес теряет деньги и сколько может забрать.">
+<title>Калькуляторы для собственника — Лина Кардаева</title>
+<meta name="description" content="Бесплатные калькуляторы: где бизнес теряет деньги и сколько может забрать. Считают в браузере, без регистрации.">
 <style>
-  :root{ --bg:#F5EFE2; --blue:#1F3A5F; --orange:#E8873B; --body:#3A4252; --mute:#968C7A; --card:#FBF7EE; }
+  :root{
+    --bg:#F5EFE2; --blue:#1F3A5F; --orange:#E8873B;
+    --body:#3A4252; --mute:#8E8471; --card:#FFFCF6; --line:#E6DCC8;
+  }
   *{box-sizing:border-box}
-  body{ margin:0 auto; background:var(--bg); color:var(--body);
-    font:17px/1.5 "Segoe UI",system-ui,-apple-system,sans-serif;
-    padding:26px 18px 48px; max-width:560px; }
-  .eyebrow{color:var(--orange); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase}
-  h1{color:var(--blue); font-size:28px; line-height:1.2; margin:10px 0 10px}
-  .sub{margin:0 0 26px}
-  a.card{ display:block; text-decoration:none; background:var(--card);
-    border:1.5px solid #E2D8C4; border-radius:13px; padding:17px 18px; margin-bottom:12px; }
-  a.card:hover{border-color:var(--orange)}
-  a.card .t{color:var(--blue); font-size:19px; font-weight:700}
-  a.card .d{color:var(--body); font-size:15px; margin-top:5px}
-  .soon{ background:transparent; border-style:dashed; }
-  .soon .t{color:var(--mute)}
-  .soon .d{color:var(--mute)}
-  footer{margin-top:30px; font-size:14px; color:var(--mute)}
-  footer a{color:var(--blue)}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--body);
+    font:17px/1.6 "Segoe UI",system-ui,-apple-system,sans-serif;
+  }
+  .wrap{max-width:720px; margin:0 auto; padding:0 20px 56px}
+
+  /* шапка */
+  .hero{padding:44px 0 34px; position:relative}
+  .kicker{
+    display:inline-block; color:var(--orange); font-weight:700; font-size:12px;
+    letter-spacing:.12em; text-transform:uppercase; border:1.5px solid var(--orange);
+    border-radius:999px; padding:6px 13px;
+  }
+  h1{
+    color:var(--blue); font-size:38px; line-height:1.12; letter-spacing:-.02em;
+    margin:18px 0 14px; font-weight:700;
+  }
+  h1 em{font-style:normal; color:var(--orange)}
+  .lead{font-size:18px; max-width:34em; margin:0}
+  .rule{height:4px; width:64px; background:var(--orange); border-radius:2px; margin:26px 0 0}
+
+  /* как работает */
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:34px 0 6px}
+  .step{background:transparent; border-top:2px solid var(--line); padding-top:12px}
+  .step .n{color:var(--orange); font-weight:700; font-size:13px; letter-spacing:.08em}
+  .step .s{font-size:14.5px; color:var(--body); margin-top:3px; line-height:1.4}
+
+  /* карточки */
+  h2.sec{color:var(--blue); font-size:15px; letter-spacing:.1em; text-transform:uppercase; margin:44px 0 16px}
+  .grid{display:grid; gap:14px}
+  .card{
+    display:block; text-decoration:none; background:var(--card); border:1.5px solid var(--line);
+    border-radius:18px; padding:22px 22px 20px; position:relative; overflow:hidden;
+    transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+  }
+  a.card:hover{transform:translateY(-3px); border-color:var(--orange); box-shadow:0 10px 26px rgba(31,58,95,.10)}
+  .card .ico{width:42px; height:42px; margin-bottom:14px; display:block}
+  .card .t{color:var(--blue); font-size:21px; font-weight:700; line-height:1.25}
+  .card .d{font-size:15.5px; margin-top:7px; color:var(--body)}
+  .card .go{display:inline-block; margin-top:14px; color:var(--orange); font-weight:700; font-size:15px}
+  .tag{
+    position:absolute; top:18px; right:18px; font-size:11px; font-weight:700; letter-spacing:.08em;
+    text-transform:uppercase; padding:5px 10px; border-radius:999px;
+  }
+  .tag.live{background:#E9F0E6; color:#3E6B3A}
+  .tag.soon{background:#EFE7D8; color:var(--mute)}
+  .card.soon{border-style:dashed; background:transparent}
+  .card.soon .t,.card.soon .d{color:var(--mute)}
+  .card.soon .ico{opacity:.5}
+
+  /* про автора */
+  .about{
+    margin-top:46px; background:var(--card); border:1.5px solid var(--line);
+    border-radius:18px; padding:24px;
+  }
+  .about h3{color:var(--blue); font-size:20px; margin:0 0 8px}
+  .about p{margin:0; font-size:16px}
+  .links{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:18px}
+  .links a{
+    display:flex; align-items:center; justify-content:center; gap:8px; text-decoration:none;
+    border:1.5px solid var(--blue); color:var(--blue); border-radius:12px; padding:12px 8px;
+    font-weight:600; font-size:15px; background:transparent; transition:background .16s ease, color .16s ease;
+  }
+  .links a:hover{background:var(--blue); color:#fff}
+  .links a svg{width:17px; height:17px; flex:none}
+
+  footer{margin-top:34px; font-size:14px; color:var(--mute); text-align:center}
+
+  @media (max-width:560px){
+    h1{font-size:30px}
+    .lead{font-size:16.5px}
+    .steps{grid-template-columns:1fr; gap:14px}
+    .links{grid-template-columns:1fr}
+    .wrap{padding:0 18px 44px}
+  }
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<div class="eyebrow">Бесплатно, без регистрации</div>
-<h1>Калькуляторы для собственника</h1>
-<p class="sub">Считают на ваших цифрах, прямо в браузере. Ничего не сохраняют и не спрашивают контакты.</p>
+  <header class="hero">
+    <span class="kicker">Бесплатно, без регистрации</span>
+    <h1>Посчитайте, <em>где ваш бизнес теряет деньги</em></h1>
+    <p class="lead">Калькуляторы на ваших цифрах. Считают прямо в браузере, ничего не сохраняют и не спрашивают контакты.</p>
+    <div class="rule"></div>
 
-<a class="card" href="zayavki/">
-  <div class="t">Потери на заявках</div>
-  <div class="d">Сколько стоит каждый процент конверсии и сколько вы недозарабатываете на тех, кого не дожали.</div>
-</a>
+    <div class="steps">
+      <div class="step"><div class="n">01</div><div class="s">Введите три цифры, которые вы и так знаете</div></div>
+      <div class="step"><div class="n">02</div><div class="s">Увидите сумму, которая уходит мимо кассы</div></div>
+      <div class="step"><div class="n">03</div><div class="s">Поделитесь результатом и заберите вывод</div></div>
+    </div>
+  </header>
 
-<div class="card soon">
-  <div class="t">Экономика повторных продаж</div>
-  <div class="d">Скоро. Сколько приносит клиент, который вернулся, и во что обходится тот, кто ушел.</div>
+  <h2 class="sec">Калькуляторы</h2>
+  <div class="grid">
+
+    <a class="card" href="zayavki/">
+      <span class="tag live">Работает</span>
+      <svg class="ico" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="5" y="8" width="38" height="32" rx="7" stroke="#1F3A5F" stroke-width="2.5"/>
+        <path d="M12 32l8-9 6 5 10-13" stroke="#E8873B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="36" cy="15" r="3" fill="#E8873B"/>
+      </svg>
+      <div class="t">Потери на заявках</div>
+      <div class="d">Сколько стоит каждый процент конверсии и сколько вы недозарабатываете на тех, кого не дожали.</div>
+      <span class="go">Посчитать →</span>
+    </a>
+
+    <div class="card soon">
+      <span class="tag soon">Скоро</span>
+      <svg class="ico" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M10 30a14 14 0 1 1 6 11" stroke="#1F3A5F" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M10 21v9h9" stroke="#E8873B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="24" cy="24" r="4" fill="#E8873B"/>
+      </svg>
+      <div class="t">Экономика повторных продаж</div>
+      <div class="d">Сколько приносит клиент, который вернулся, и во что обходится тот, кто ушел навсегда.</div>
+    </div>
+
+    <div class="card soon">
+      <span class="tag soon">Скоро</span>
+      <svg class="ico" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M14 34L34 14" stroke="#E8873B" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="17" cy="17" r="5" stroke="#1F3A5F" stroke-width="2.5"/>
+        <circle cx="31" cy="31" r="5" stroke="#1F3A5F" stroke-width="2.5"/>
+      </svg>
+      <div class="t">Цена скидки</div>
+      <div class="d">На сколько надо вырасти в объеме, чтобы скидка окупилась, и когда она просто съедает прибыль.</div>
+    </div>
+
+  </div>
+
+  <section class="about">
+    <h3>Лина Кардаева</h3>
+    <p>20 лет в финансах. Построила и продала свою школу. Финансы, маркетинг, продажи и удержание клиента в одной голове. Показываю, где бизнес теряет деньги и сколько может забрать.</p>
+    <div class="links">
+      <a href="https://www.threads.com/@lina_kardaeva">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.2 22h-.06c-3.03-.02-5.36-1.02-6.92-2.97C3.83 17.3 3.11 14.9 3.09 12v-.02c.02-2.9.74-5.3 2.13-7.03C6.78 3 9.11 2.02 12.14 2h.06c2.32.02 4.26.62 5.77 1.78 1.42 1.1 2.42 2.66 2.97 4.65l-1.94.54c-.93-3.34-3.3-5.04-6.81-5.06-2.4.02-4.2.77-5.37 2.23-1.1 1.37-1.66 3.34-1.68 5.86.02 2.52.58 4.5 1.68 5.86 1.17 1.46 2.98 2.21 5.37 2.23 2.16-.02 3.59-.52 4.78-1.68 1.36-1.32 1.33-2.94 .9-3.93-.26-.58-.72-1.06-1.35-1.42-.16 1.11-.51 2.01-1.05 2.69-.72.9-1.75 1.4-3.06 1.46-.99.06-1.95-.18-2.69-.66-.88-.58-1.4-1.46-1.46-2.5-.11-2.04 1.51-3.5 4.03-3.65.9-.05 1.74-.01 2.51.12-.1-.62-.31-1.11-.62-1.46-.42-.48-1.08-.72-1.95-.73h-.03c-.7 0-1.65.19-2.26 1.1l-1.65-1.11c.81-1.2 2.13-1.87 3.91-1.87h.04c2.98.02 4.75 1.85 4.93 5.02.1.04.2.09.3.14 1.42.67 2.46 1.68 3 2.93.76 1.74.83 4.57-1.47 6.8C17.5 21.32 15.5 22 12.2 22Zm.87-9.3c-.2 0-.41 0-.62.02-1.9.11-2.19.99-2.16 1.51.04.7.79 1.03 1.51.99 1.34-.07 2.6-.6 2.82-3.4-.5-.09-1.02-.13-1.55-.12Z"/></svg>
+        Threads
+      </a>
+      <a href="https://www.instagram.com/lina_kardaeva">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg>
+        Instagram
+      </a>
+      <a href="https://t.me/linakardaeva">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.9 19c-.2 1-.8 1.3-1.7.8l-4.6-3.4-2.2 2.1c-.3.3-.5.5-1 .5l.3-4.7 8.5-7.7c.4-.3-.1-.5-.6-.2L6.9 12.9l-4.5-1.4c-1-.3-1-1 .2-1.4l17.6-6.8c.8-.3 1.5.2 1.2 1Z"/></svg>
+        Telegram
+      </a>
+    </div>
+  </section>
+
+  <footer>Считаю деньги бизнеса и показываю, где они утекают</footer>
 </div>
-
-<div class="card soon">
-  <div class="t">Цена скидки</div>
-  <div class="d">Скоро. На сколько надо вырасти в объеме, чтобы скидка окупилась.</div>
-</div>
-
-<footer>
-  Лина Кардаева. Где ваш бизнес теряет деньги.<br>
-  <a href="https://www.threads.com/@lina_kardaeva">Threads</a> &middot;
-  <a href="https://t.me/linakardaeva">Telegram</a>
-</footer>
-
 </body>
 </html>
