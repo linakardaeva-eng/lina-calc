@@ -46,6 +46,7 @@
   .offer{font-size:15px; color:var(--body); margin-top:16px}
   .offer a{color:var(--blue)}
   footer{margin-top:30px; font-size:13px; color:var(--mute)}
+  .hint{font-size:14px; color:var(--mute); margin:-4px 0 14px}
   .hidden{display:none}
 </style>
 </head>
@@ -68,13 +69,14 @@
 
 <div id="act" class="act hidden">
   <h2>Что дальше</h2>
-  <button class="btn pri" id="copy">Скопировать мой результат</button>
+  <button class="btn pri" id="copy">Скопировать и поделиться результатом</button>
+  <p class="hint">Вставьте свою цифру в комментарии к посту: интересно сравнить, у кого сколько.</p>
   <a class="btn" id="back" href="https://www.threads.com/@lina_kardaeva">Вернуться к обсуждению</a>
   <a class="btn" href="https://www.threads.com/@lina_kardaeva">Подписаться на Лину</a>
   <p class="offer">Хотите посчитать не оценку, а ваши реальные цифры, напишите мне в личку.</p>
 </div>
 
-<footer>Лина Кардаева. Считаю деньги бизнеса.</footer>
+<footer>Лина Кардаева. Где ваш бизнес теряет деньги.</footer>
 
 <script>
 (function(){
@@ -140,7 +142,7 @@
 
   document.getElementById('copy').addEventListener('click',function(){
     var btn=this;
-    function done(){ btn.textContent='Скопировано'; setTimeout(function(){ btn.textContent='Скопировать мой результат'; },1800); }
+    function done(){ btn.textContent='Скопировано'; setTimeout(function(){ btn.textContent='Скопировать и поделиться результатом'; },1800); }
     if(navigator.clipboard && navigator.clipboard.writeText){
       navigator.clipboard.writeText(copyText).then(done, fallback);
     } else { fallback(); }
