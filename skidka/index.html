@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Сколько стоит ваша скидка</title>
+<meta name="description" content="Скидка режет прибыль сильнее, чем кажется. Калькулятор показывает, на сколько надо вырасти в объеме, чтобы ее отработать.">
+<style>
+  :root{
+    --bg:#F5EFE2; --blue:#1F3A5F; --orange:#E8873B;
+    --body:#3A4252; --mute:#968C7A; --card:#FBF7EE;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--body);
+    font:17px/1.5 "Segoe UI",system-ui,-apple-system,sans-serif;
+    padding:24px 18px 48px; max-width:560px; margin:0 auto;
+  }
+  .eyebrow{color:var(--orange); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase}
+  h1{color:var(--blue); font-size:27px; line-height:1.2; margin:10px 0 8px}
+  .sub{color:var(--body); margin:0 0 22px}
+  label{display:block; font-size:14px; color:var(--mute); margin:14px 0 5px}
+  input{
+    width:100%; padding:13px 14px; font-size:19px; color:var(--blue);
+    background:var(--card); border:1.5px solid #E2D8C4; border-radius:11px; outline:none;
+  }
+  input:focus{border-color:var(--orange)}
+  .out{margin-top:26px}
+  .warn{background:#FBE9DC; border-left:4px solid var(--orange); padding:13px 15px; border-radius:8px; margin-bottom:16px}
+  .conv{font-size:15px; color:var(--body); margin-bottom:4px}
+  .conv b{color:var(--blue); font-size:20px}
+  .lost{color:var(--mute); font-size:15px; margin-bottom:20px}
+  .row{background:var(--card); border-radius:12px; padding:14px 16px; margin-bottom:10px}
+  .row .t{font-size:14px; color:var(--mute)}
+  .row .m{font-size:15px; color:var(--body); margin-top:2px}
+  .row .y{font-size:24px; font-weight:700; color:var(--orange); margin-top:4px; line-height:1.15}
+  .fine{font-size:13px; color:var(--mute); margin:18px 0 26px}
+  .act{border-top:1.5px solid #E2D8C4; padding-top:22px}
+  .act h2{color:var(--blue); font-size:19px; margin:0 0 14px}
+  a.btn,button.btn{
+    display:block; width:100%; text-align:center; text-decoration:none; cursor:pointer;
+    padding:14px; border-radius:11px; font-size:16px; font-weight:600; margin-bottom:10px;
+    border:1.5px solid var(--blue); background:transparent; color:var(--blue); font-family:inherit;
+  }
+  a.btn.pri,button.btn.pri{background:var(--orange); border-color:var(--orange); color:#fff}
+  .offer{font-size:15px; color:var(--body); margin-top:16px}
+  .offer a{color:var(--blue)}
+  footer{margin-top:30px; font-size:13px; color:var(--mute)}
+  .hint{font-size:14px; color:var(--mute); margin:-4px 0 14px}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+
+<div class="eyebrow">Калькулятор</div>
+<h1>Сколько стоит ваша скидка</h1>
+<p class="sub">Три цифры, которые вы и так знаете. Считает сразу, ничего не сохраняет и не спрашивает ваши контакты.</p>
+
+<label for="p">Цена без скидки, рублей</label>
+<input id="p" type="number" inputmode="decimal" min="0" placeholder="например, 100000">
+
+<label for="c">Себестоимость, рублей</label>
+<input id="c" type="number" inputmode="decimal" min="0" placeholder="например, 70000">
+
+<label for="d">Размер скидки, процентов</label>
+<input id="d" type="number" inputmode="decimal" min="0" max="100" placeholder="например, 10">
+
+<div id="out" class="out hidden"></div>
+
+<div id="act" class="act hidden">
+  <h2>Что дальше</h2>
+  <a class="btn pri" href="https://t.me/linakardaeva">Забрать разбор: что просить взамен скидки</a>
+  <p class="hint">Скидка это обмен, а не подарок. Что брать взамен и как ставить правило для менеджеров, разобрала в канале.</p>
+  <button class="btn" id="copy">Скопировать и поделиться результатом</button>
+  <a class="btn" href="../">Другие калькуляторы</a>
+  <p class="offer">Хотите посчитать не оценку, а вашу реальную экономику, напишите мне в личку.</p>
+</div>
+
+<footer>Лина Кардаева. Где ваш бизнес теряет деньги.</footer>
+
+<script>
+(function(){
+  var P=document.getElementById('p'), C=document.getElementById('c'), D=document.getElementById('d');
+  var out=document.getElementById('out'), act=document.getElementById('act');
+  var copyText='';
+
+  function fmt(n){
+    n=Math.round(n);
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ');
+  }
+  function pct(n){ return n.toFixed(1).replace('.',',').replace(',0',''); }
+
+  function calc(){
+    var p=parseFloat(P.value), c=parseFloat(C.value), d=parseFloat(D.value);
+    if(!(p>0) || !(c>=0) || !(d>0)){ out.className='out hidden'; act.className='act hidden'; return; }
+
+    out.className='out'; act.className='act';
+    var html='';
+
+    if(c>=p){
+      out.innerHTML='<div class="warn">Себестоимость не ниже цены: вы работаете в минус еще до скидки. Сначала считаем цену, а не скидку.</div>';
+      act.className='act hidden';
+      return;
+    }
+    if(d>=100){
+      out.innerHTML='<div class="warn">Скидка сто процентов и выше это уже не скидка. Проверьте цифру.</div>';
+      act.className='act hidden';
+      return;
+    }
+
+    var m1=p-c, r1=m1/p*100;
+    var p2=p*(1-d/100), m2=p2-c, r2=p2>0 ? m2/p2*100 : 0;
+
+    html+='<div class="conv">Ваша прибыль с единицы сейчас: <b>'+fmt(m1)+' руб</b></div>';
+    html+='<div class="lost">Рентабельность '+pct(r1)+' процентов</div>';
+
+    if(m2<=0){
+      html+='<div class="warn">При такой скидке цена падает до '+fmt(p2)+' рублей, а это ниже себестоимости. Каждая проданная единица приносит убыток '+fmt(-m2)+' рублей. Отработать такую скидку объемом невозможно.</div>';
+      out.innerHTML=html;
+      copyText='Посчитала: скидка '+pct(d)+' процентов уводит меня ниже себестоимости.';
+      return;
+    }
+
+    var drop=(m1-m2)/m1*100;
+    var k=m1/m2;
+    var growth=(k-1)*100;
+
+    html+='<div class="row">'
+        + '<div class="t">После скидки '+pct(d)+' процентов</div>'
+        + '<div class="m">цена '+fmt(p2)+' руб, себестоимость та же, рентабельность '+pct(r2)+' процентов</div>'
+        + '<div class="y">прибыль '+fmt(m2)+' руб</div>'
+        + '</div>';
+
+    html+='<div class="row">'
+        + '<div class="t">Прибыль с единицы упала на</div>'
+        + '<div class="m">скидка была '+pct(d)+' процентов, а прибыли стало меньше на</div>'
+        + '<div class="y">'+pct(drop)+' процентов</div>'
+        + '</div>';
+
+    html+='<div class="row">'
+        + '<div class="t">Чтобы заработать столько же</div>'
+        + '<div class="m">продать надо больше на</div>'
+        + '<div class="y">'+pct(growth)+' процентов</div>'
+        + '</div>';
+
+    html+='<p class="fine">То есть в '+k.toFixed(2).replace('.',',')+' раза больше, чем без скидки. Расчет оценочный и по одной единице. Он не говорит, давать скидку или нет. Он показывает, во что она обходится.</p>';
+    out.innerHTML=html;
+
+    copyText='Посчитала: скидка '+pct(d)+' процентов срезает мою прибыль на '+pct(drop)+' процентов. Чтобы вернуть свое, продавать надо на '+pct(growth)+' процентов больше.';
+  }
+
+  [P,C,D].forEach(function(el){ el.addEventListener('input',calc); });
+
+  document.getElementById('copy').addEventListener('click',function(){
+    var btn=this;
+    function done(){ btn.textContent='Скопировано'; setTimeout(function(){ btn.textContent='Скопировать и поделиться результатом'; },1800); }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(copyText).then(done, fallback);
+    } else { fallback(); }
+    function fallback(){
+      var ta=document.createElement('textarea');
+      ta.value=copyText; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy'); done(); }catch(e){}
+      document.body.removeChild(ta);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
