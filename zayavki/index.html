@@ -129,7 +129,7 @@
     <a class="btn pri" href="https://t.me/linakardaeva/67">Посчитали? Теперь разберемся, что означает ваша цифра</a>
     <p class="hint">Разобрала, что показывает результат калькулятора, почему даже один пункт конверсии может сильно влиять на выручку и где искать причины в своем бизнесе.</p>
     <button class="btn" id="copy">Скопировать и поделиться результатом</button>
-    <a class="btn" id="back" href="https://www.threads.com/@lina_kardaeva">Вернуться к обсуждению</a>
+    <a class="btn hidden" id="back" href="#"></a>
     <p class="offer">Хотите посчитать не оценку, а ваши реальные цифры: <a href="https://t.me/Lina_kardaeva">напишите мне в Telegram</a>.</p>
   </div>
   <footer>Лина Кардаева. Где ваш бизнес теряет деньги.</footer>
@@ -141,10 +141,46 @@
   var out=document.getElementById('out'), act=document.getElementById('act');
   var copyText='';
 
-  var p=new URLSearchParams(location.search).get('p');
-  if(p && /^[A-Za-z0-9_-]{5,30}$/.test(p)){
-    document.getElementById('back').href='https://www.threads.com/@lina_kardaeva/post/'+p;
+  // ---- возврат в источник: приоритет return > p > src > история > скрыть ----
+  var qs=new URLSearchParams(location.search);
+  var back=document.getElementById('back');
+  var ALLOWED=['threads.com','www.threads.com','threads.net','www.threads.net','instagram.com','www.instagram.com'];
+
+  function safeReturn(raw){
+    if(!raw) return null;
+    try{
+      var u=new URL(raw);
+      if(u.protocol!=='https:') return null;
+      if(ALLOWED.indexOf(u.hostname)===-1) return null;
+      return u.href;
+    }catch(e){ return null; }
   }
+  function label(host){
+    if(host.indexOf('instagram')!==-1) return 'Вернуться в Instagram';
+    return 'Вернуться в Threads';
+  }
+  function show(href,text){ back.href=href; back.textContent=text; back.className='btn'; }
+
+  (function setupBack(){
+    var ret=safeReturn(qs.get('return'));
+    if(ret){ show(ret, label(new URL(ret).hostname)); return; }
+
+    var p=qs.get('p');
+    if(p && /^[A-Za-z0-9_-]{5,30}$/.test(p)){
+      show('https://www.threads.com/@lina_kardaeva/post/'+p, 'Вернуться в Threads'); return;
+    }
+
+    var src=(qs.get('src')||'').toLowerCase();
+    if(src==='threads'){ show('https://www.threads.com/@lina_kardaeva','Вернуться в Threads'); return; }
+    if(src==='instagram'){ show('https://www.instagram.com/lina_kardaeva','Вернуться в Instagram'); return; }
+
+    if(history.length>1){
+      back.href='#'; back.textContent='Вернуться назад'; back.className='btn';
+      back.addEventListener('click',function(e){ e.preventDefault(); history.back(); });
+      return;
+    }
+    // источник неизвестен и истории нет: кнопку не показываем, фиктивный маршрут не создаем
+  })();
 
   function fmt(n){
     n=Math.round(n);
