@@ -174,12 +174,20 @@
     if(src==='threads'){ show('https://www.threads.com/@lina_kardaeva','Вернуться в Threads'); return; }
     if(src==='instagram'){ show('https://www.instagram.com/lina_kardaeva','Вернуться в Instagram'); return; }
 
-    if(history.length>1){
+    // Источник неизвестен. history.length ненадежен: в чистой вкладке он уже равен 2
+    // из-за about:blank, и «назад» увело бы на пустую страницу. Поэтому дополнительно
+    // требуем непустой внешний referrer: он доказывает, что переход откуда-то был.
+    var ref=document.referrer||'';
+    var external=false;
+    if(ref){
+      try{ external=new URL(ref).origin!==location.origin; }catch(e){ external=false; }
+    }
+    if(external && history.length>1){
       back.href='#'; back.textContent='Вернуться назад'; back.className='btn';
       back.addEventListener('click',function(e){ e.preventDefault(); history.back(); });
       return;
     }
-    // источник неизвестен и истории нет: кнопку не показываем, фиктивный маршрут не создаем
+    // возврат недоказуем: кнопку не показываем, фиктивный маршрут не создаем
   })();
 
   function fmt(n){
