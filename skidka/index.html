@@ -198,63 +198,6 @@
     // возврат недоказуем: кнопку не показываем, фиктивный маршрут не создаем
   })();
 
-  function fmt(n){
-    n=Math.round(n);
-    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ');
-  }
-  function plural(n,a,b,c){
-    n=Math.abs(n)%100; var m=n%10;
-    if(n>10&&n<20) return c; if(m>1&&m<5) return b; if(m===1) return a; return c;
-  }
-
-  function calc(){
-    var l=parseFloat(L.value), s=parseFloat(S.value), c=parseFloat(C.value);
-    if(!(l>0) || !(s>=0) || !(c>0)){ out.className='out hidden'; act.className='act hidden'; return; }
-
-    out.className='out'; act.className='act';
-
-    if(s>l){
-      out.innerHTML='<div class="warn">Проверьте цифры: продаж больше, чем заявок. Возможно, часть клиентов покупает повторно, тогда посчитайте только новые сделки.</div>';
-      act.className='act hidden';
-      return;
-    }
-
-    var k=s/l*100, lost=l-s, html='';
-    html+='<div class="result-head">'
-        + '<div class="conv">Ваша конверсия в оплату<b>'+k.toFixed(1).replace('.',',')+'%</b></div>'
-        + '<div class="lost">Из '+fmt(l)+' '+plural(l,'заявки','заявок','заявок')+' в месяц не покупают '+fmt(lost)+'</div>'
-        + '</div>';
-
-    if(k>=95){
-      html+='<div class="warn">У вас конверсия под потолком. Ваш рост не в конверсии, а в количестве заявок: считайте не дожим, а трафик.</div>';
-      out.innerHTML=html;
-      copyText='Моя конверсия '+k.toFixed(1).replace('.',',')+'%, рост уже не в дожиме, а в количестве заявок.';
-      return;
-    }
-
-    var steps=[1,5,10].filter(function(x){ return k+x<=100; });
-    steps.forEach(function(x){
-      var add=l*x/100, month=add*c, year=month*12;
-      html+='<div class="row">'
-          + '<div class="t">Плюс '+x+' '+plural(x,'пункт','пункта','пунктов')+' конверсии</div>'
-          + '<div class="m">это +'+fmt(add)+' '+plural(Math.round(add),'продажа','продажи','продаж')+' в месяц</div>'
-          + '<div class="y">+'+fmt(year)+' рублей в год</div>'
-          + '</div>';
-    });
-
-    html+='<p class="fine">Расчет оценочный. Он показывает дополнительную выручку, а не прибыль и не гарантию: расходы, налоги и себестоимость он не учитывает.</p>';
-    out.innerHTML=html;
-
-    var one=l*1/100*c*12;
-    copyText='Моя конверсия '+k.toFixed(1).replace('.',',')+'%. Один пункт конверсии стоит мне '+fmt(one)+' рублей в год.';
-  }
-
-  [L,S,C].forEach(function(el){
-    el.addEventListener('input',calc);
-    el.addEventListener('wheel',function(e){
-      if(document.activeElement===el){ el.blur(); e.preventDefault(); }
-    },{passive:false});
-  });
 
 
   function fmt(n){
