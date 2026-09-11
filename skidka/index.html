@@ -7,82 +7,255 @@
 <meta name="description" content="Скидка режет прибыль сильнее, чем кажется. Калькулятор показывает, на сколько надо вырасти в объеме, чтобы ее отработать.">
 <style>
   :root{
-    --bg:#F5EFE2; --blue:#1F3A5F; --orange:#E8873B;
-    --body:#3A4252; --mute:#968C7A; --card:#FBF7EE;
+    --bg:#F0E9DB; --surface:#FFFDF9; --surface-2:#F7F2E7;
+    --blue:#1F3A5F; --blue-soft:#425B7C;
+    --orange:#E8873B; --orange-dark:#D2762C;
+    --body:#3A4252; --mute:#8C8577;
+    --line:#E4DACA; --line-strong:#D6C9B4;
+    --radius:20px; --radius-sm:14px;
   }
   *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
   body{
     margin:0; background:var(--bg); color:var(--body);
-    font:17px/1.5 "Segoe UI",system-ui,-apple-system,sans-serif;
-    padding:24px 18px 48px; max-width:560px; margin:0 auto;
+    font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+    -webkit-font-smoothing:antialiased;
+    display:flex; flex-direction:column; justify-content:center;
+    min-height:100vh; min-height:100dvh; padding:40px 20px;
   }
-  .eyebrow{color:var(--orange); font-weight:700; font-size:13px; letter-spacing:.08em; text-transform:uppercase}
-  h1{color:var(--blue); font-size:27px; line-height:1.2; margin:10px 0 8px}
-  .sub{color:var(--body); margin:0 0 22px}
-  label{display:block; font-size:14px; color:var(--mute); margin:14px 0 5px}
+  .page{width:100%; max-width:620px; margin:0 auto}
+  .card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:36px 34px 32px;
+    box-shadow:0 1px 2px rgba(31,58,95,.04), 0 12px 32px -12px rgba(31,58,95,.10);
+  }
+  .eyebrow{
+    display:inline-block; color:var(--orange); font-weight:700; font-size:11.5px;
+    letter-spacing:.14em; text-transform:uppercase; margin-bottom:14px;
+  }
+  h1{color:var(--blue); font-size:30px; line-height:1.18; letter-spacing:-.015em; margin:0 0 12px; font-weight:700}
+  .sub{color:var(--blue-soft); margin:0 0 22px; font-size:16px; line-height:1.5}
+  .promise{
+    display:flex; gap:11px; align-items:flex-start;
+    background:var(--surface-2); border-radius:var(--radius-sm);
+    padding:13px 15px; margin-bottom:28px;
+    font-size:14.5px; line-height:1.45; color:var(--blue-soft);
+  }
+  .promise i{flex:none; width:7px; height:7px; border-radius:50%; background:var(--orange); margin-top:7px}
+  .field{margin-bottom:18px}
+  .field:last-child{margin-bottom:0}
+  label{display:block; font-size:13.5px; font-weight:600; color:var(--mute); margin-bottom:7px; letter-spacing:.01em}
   input{
-    width:100%; padding:13px 14px; font-size:19px; color:var(--blue);
-    background:var(--card); border:1.5px solid #E2D8C4; border-radius:11px; outline:none;
+    width:100%; height:56px; padding:0 16px;
+    font:600 19px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    color:var(--blue); background:#fff;
+    border:1.5px solid var(--line-strong); border-radius:var(--radius-sm);
+    outline:none; transition:border-color .15s ease, box-shadow .15s ease;
+    -moz-appearance:textfield;
   }
-  input:focus{border-color:var(--orange)}
-  .out{margin-top:26px}
-  .warn{background:#FBE9DC; border-left:4px solid var(--orange); padding:13px 15px; border-radius:8px; margin-bottom:16px}
-  .conv{font-size:15px; color:var(--body); margin-bottom:4px}
-  .conv b{color:var(--blue); font-size:20px}
-  .lost{color:var(--mute); font-size:15px; margin-bottom:20px}
-  .row{background:var(--card); border-radius:12px; padding:14px 16px; margin-bottom:10px}
-  .row .t{font-size:14px; color:var(--mute)}
-  .row .m{font-size:15px; color:var(--body); margin-top:2px}
-  .row .y{font-size:24px; font-weight:700; color:var(--orange); margin-top:4px; line-height:1.15}
-  .fine{font-size:13px; color:var(--mute); margin:18px 0 26px}
-  .act{border-top:1.5px solid #E2D8C4; padding-top:22px}
-  .act h2{color:var(--blue); font-size:19px; margin:0 0 14px}
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button{-webkit-appearance:none; margin:0}
+  input::placeholder{color:#B8AE9C; font-weight:400}
+  input:hover{border-color:#C6B79E}
+  input:focus{border-color:var(--orange); box-shadow:0 0 0 4px rgba(232,135,59,.14)}
+  .out{margin-top:18px}
+  .result-head{background:var(--blue); border-radius:var(--radius); padding:26px 28px; color:#fff; margin-bottom:14px}
+  .conv{font-size:14px; color:#B9C7D9; letter-spacing:.01em}
+  .conv b{display:block; color:#fff; font-size:44px; line-height:1.1; font-weight:700; letter-spacing:-.02em; margin-top:6px}
+  .lost{color:#9FB2C7; font-size:14.5px; margin-top:12px; line-height:1.45}
+  .row{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-sm);
+    padding:18px 20px; margin-bottom:10px; display:flex; flex-direction:column; gap:3px;
+  }
+  .row .t{font-size:13px; font-weight:600; color:var(--mute); letter-spacing:.02em; text-transform:uppercase}
+  .row .m{font-size:14.5px; color:var(--blue-soft)}
+  .row .y{font-size:27px; font-weight:700; color:var(--orange); line-height:1.15; letter-spacing:-.015em; margin-top:5px}
+  .warn{background:#FBEADC; border:1px solid #F1CFAE; padding:16px 18px; border-radius:var(--radius-sm); color:#8A5A2B; font-size:15px; line-height:1.5}
+  .fine{font-size:13.5px; color:var(--mute); line-height:1.5; margin:16px 2px 0}
+  .act{margin-top:26px}
+  .act h2{font-size:12px; font-weight:700; color:var(--mute); letter-spacing:.14em; text-transform:uppercase; margin:0 0 14px; padding-left:2px}
   a.btn,button.btn{
     display:block; width:100%; text-align:center; text-decoration:none; cursor:pointer;
-    padding:14px; border-radius:11px; font-size:16px; font-weight:600; margin-bottom:10px;
-    border:1.5px solid var(--blue); background:transparent; color:var(--blue); font-family:inherit;
+    padding:17px 20px; border-radius:var(--radius-sm); font-size:16px; font-weight:600;
+    font-family:inherit; margin-bottom:10px; line-height:1.35;
+    border:1.5px solid var(--line-strong); background:var(--surface); color:var(--blue);
+    transition:border-color .15s ease, background .15s ease, transform .12s ease;
   }
-  a.btn.pri,button.btn.pri{background:var(--orange); border-color:var(--orange); color:#fff}
-  .offer{font-size:15px; color:var(--body); margin-top:16px}
-  .offer a{color:var(--blue)}
-  footer{margin-top:30px; font-size:13px; color:var(--mute)}
-  .hint{font-size:14px; color:var(--mute); margin:-4px 0 14px}
-  .hidden{display:none}
+  a.btn:hover,button.btn:hover{border-color:var(--blue); transform:translateY(-1px)}
+  a.btn.pri,button.btn.pri{background:var(--orange); border-color:var(--orange); color:#fff; box-shadow:0 6px 18px -6px rgba(232,135,59,.55)}
+  a.btn.pri:hover{background:var(--orange-dark); border-color:var(--orange-dark)}
+  .hint{font-size:14px; color:var(--mute); line-height:1.5; margin:-2px 2px 18px}
+  .offer{font-size:15px; color:var(--blue-soft); margin:18px 2px 0; line-height:1.5}
+  .offer a{color:var(--blue); font-weight:600}
+  footer{margin:26px 2px 0; font-size:13px; color:var(--mute)}
+  .hidden{display:none !important}
+  @media (max-width:560px){
+    body{padding:22px 16px; justify-content:flex-start}
+    .card{padding:26px 20px 24px; border-radius:18px}
+    h1{font-size:25px}
+    .sub{font-size:15.5px}
+    .promise{padding:12px 14px; font-size:14px; margin-bottom:24px}
+    .result-head{padding:22px 20px}
+    .conv b{font-size:38px}
+    .row{padding:16px 18px}
+    .row .y{font-size:24px}
+    a.btn,button.btn{padding:16px 18px; font-size:15.5px}
+  }
 </style>
 </head>
 <body>
 
-<div class="eyebrow">Калькулятор</div>
-<h1>Сколько стоит ваша скидка</h1>
-<p class="sub">Три цифры, которые вы и так знаете. Считает сразу, ничего не сохраняет и не спрашивает ваши контакты.</p>
+<div class="page">
 
-<label for="p">Цена без скидки, рублей</label>
-<input id="p" type="number" inputmode="decimal" min="0" placeholder="например, 100000">
+  <div class="card">
+    <div class="eyebrow">Калькулятор</div>
+    <h1>Сколько стоит ваша скидка</h1>
+    <p class="sub">Три цифры, которые вы и так знаете. Считает сразу, ничего не сохраняет и не спрашивает ваши контакты.</p>
 
-<label for="c">Себестоимость, рублей</label>
-<input id="c" type="number" inputmode="decimal" min="0" placeholder="например, 70000">
+    <div class="promise"><i></i><span>После расчета покажу, как читать эту цифру и что просить взамен скидки.</span></div>
 
-<label for="d">Размер скидки, процентов</label>
-<input id="d" type="number" inputmode="decimal" min="0" max="100" placeholder="например, 10">
+    <div class="field">
+      <label for="p">Цена без скидки, рублей</label>
+      <input id="p" type="number" inputmode="decimal" min="0" placeholder="например, 100000">
+    </div>
+    <div class="field">
+      <label for="c">Себестоимость, рублей</label>
+      <input id="c" type="number" inputmode="decimal" min="0" placeholder="например, 70000">
+    </div>
+    <div class="field">
+      <label for="d">Размер скидки, процентов</label>
+      <input id="d" type="number" inputmode="decimal" min="0" max="100" placeholder="например, 10">
+    </div>
+  </div>
 
-<div id="out" class="out hidden"></div>
+  <div id="out" class="out hidden"></div>
 
-<div id="act" class="act hidden">
-  <h2>Что дальше</h2>
-  <a class="btn pri" href="https://t.me/linakardaeva">Забрать разбор: что просить взамен скидки</a>
-  <p class="hint">Скидка это обмен, а не подарок. Что брать взамен и как ставить правило для менеджеров, разобрала в канале.</p>
-  <button class="btn" id="copy">Скопировать и поделиться результатом</button>
-  <a class="btn" href="../">Другие калькуляторы</a>
-  <p class="offer">Хотите посчитать не оценку, а вашу реальную экономику: <a href="https://t.me/Lina_kardaeva">напишите мне в Telegram</a>.</p>
+  <div id="act" class="act hidden">
+    <h2>Что дальше</h2>
+    <a class="btn pri hidden" id="analysis" href="#"></a>
+    <p class="hint hidden" id="analysisHint"></p>
+    <button class="btn" id="copy">Скопировать и поделиться результатом</button>
+    <a class="btn hidden" id="back" href="#"></a>
+    <p class="offer">Хотите посчитать не оценку, а вашу реальную экономику: <a href="https://t.me/Lina_kardaeva">напишите мне в Telegram</a>.</p>
+  </div>
+
+  <footer>Лина Кардаева. Где ваш бизнес теряет деньги.</footer>
+
 </div>
-
-<footer>Лина Кардаева. Где ваш бизнес теряет деньги.</footer>
 
 <script>
 (function(){
   var P=document.getElementById('p'), C=document.getElementById('c'), D=document.getElementById('d');
   var out=document.getElementById('out'), act=document.getElementById('act');
   var copyText='';
+
+  // ---- возврат в источник: приоритет return > p > src > история > скрыть ----
+  var qs=new URLSearchParams(location.search);
+  var back=document.getElementById('back');
+  var ALLOWED=['threads.com','www.threads.com','threads.net','www.threads.net','instagram.com','www.instagram.com'];
+
+  function safeReturn(raw){
+    if(!raw) return null;
+    try{
+      var u=new URL(raw);
+      if(u.protocol!=='https:') return null;
+      if(ALLOWED.indexOf(u.hostname)===-1) return null;
+      return u.href;
+    }catch(e){ return null; }
+  }
+  function label(host){
+    if(host.indexOf('instagram')!==-1) return 'Вернуться в Instagram';
+    return 'Вернуться в Threads';
+  }
+  function show(href,text){ back.href=href; back.textContent=text; back.className='btn'; }
+
+  (function setupBack(){
+    var ret=safeReturn(qs.get('return'));
+    if(ret){ show(ret, label(new URL(ret).hostname)); return; }
+
+    var p=qs.get('p');
+    if(p && /^[A-Za-z0-9_-]{5,30}$/.test(p)){
+      show('https://www.threads.com/@lina_kardaeva/post/'+p, 'Вернуться в Threads'); return;
+    }
+
+    var src=(qs.get('src')||'').toLowerCase();
+    if(src==='threads'){ show('https://www.threads.com/@lina_kardaeva','Вернуться в Threads'); return; }
+    if(src==='instagram'){ show('https://www.instagram.com/lina_kardaeva','Вернуться в Instagram'); return; }
+
+    // Источник неизвестен. history.length ненадежен: в чистой вкладке он уже равен 2
+    // из-за about:blank, и «назад» увело бы на пустую страницу. Поэтому дополнительно
+    // требуем непустой внешний referrer: он доказывает, что переход откуда-то был.
+    var ref=document.referrer||'';
+    var external=false;
+    if(ref){
+      try{ external=new URL(ref).origin!==location.origin; }catch(e){ external=false; }
+    }
+    if(external && history.length>1){
+      back.href='#'; back.textContent='Вернуться назад'; back.className='btn';
+      back.addEventListener('click',function(e){ e.preventDefault(); history.back(); });
+      return;
+    }
+    // возврат недоказуем: кнопку не показываем, фиктивный маршрут не создаем
+  })();
+
+  function fmt(n){
+    n=Math.round(n);
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ');
+  }
+  function plural(n,a,b,c){
+    n=Math.abs(n)%100; var m=n%10;
+    if(n>10&&n<20) return c; if(m>1&&m<5) return b; if(m===1) return a; return c;
+  }
+
+  function calc(){
+    var l=parseFloat(L.value), s=parseFloat(S.value), c=parseFloat(C.value);
+    if(!(l>0) || !(s>=0) || !(c>0)){ out.className='out hidden'; act.className='act hidden'; return; }
+
+    out.className='out'; act.className='act';
+
+    if(s>l){
+      out.innerHTML='<div class="warn">Проверьте цифры: продаж больше, чем заявок. Возможно, часть клиентов покупает повторно, тогда посчитайте только новые сделки.</div>';
+      act.className='act hidden';
+      return;
+    }
+
+    var k=s/l*100, lost=l-s, html='';
+    html+='<div class="result-head">'
+        + '<div class="conv">Ваша конверсия в оплату<b>'+k.toFixed(1).replace('.',',')+'%</b></div>'
+        + '<div class="lost">Из '+fmt(l)+' '+plural(l,'заявки','заявок','заявок')+' в месяц не покупают '+fmt(lost)+'</div>'
+        + '</div>';
+
+    if(k>=95){
+      html+='<div class="warn">У вас конверсия под потолком. Ваш рост не в конверсии, а в количестве заявок: считайте не дожим, а трафик.</div>';
+      out.innerHTML=html;
+      copyText='Моя конверсия '+k.toFixed(1).replace('.',',')+'%, рост уже не в дожиме, а в количестве заявок.';
+      return;
+    }
+
+    var steps=[1,5,10].filter(function(x){ return k+x<=100; });
+    steps.forEach(function(x){
+      var add=l*x/100, month=add*c, year=month*12;
+      html+='<div class="row">'
+          + '<div class="t">Плюс '+x+' '+plural(x,'пункт','пункта','пунктов')+' конверсии</div>'
+          + '<div class="m">это +'+fmt(add)+' '+plural(Math.round(add),'продажа','продажи','продаж')+' в месяц</div>'
+          + '<div class="y">+'+fmt(year)+' рублей в год</div>'
+          + '</div>';
+    });
+
+    html+='<p class="fine">Расчет оценочный. Он показывает дополнительную выручку, а не прибыль и не гарантию: расходы, налоги и себестоимость он не учитывает.</p>';
+    out.innerHTML=html;
+
+    var one=l*1/100*c*12;
+    copyText='Моя конверсия '+k.toFixed(1).replace('.',',')+'%. Один пункт конверсии стоит мне '+fmt(one)+' рублей в год.';
+  }
+
+  [L,S,C].forEach(function(el){
+    el.addEventListener('input',calc);
+    el.addEventListener('wheel',function(e){
+      if(document.activeElement===el){ el.blur(); e.preventDefault(); }
+    },{passive:false});
+  });
+
 
   function fmt(n){
     n=Math.round(n);
@@ -111,8 +284,10 @@
     var m1=p-c, r1=m1/p*100;
     var p2=p*(1-d/100), m2=p2-c, r2=p2>0 ? m2/p2*100 : 0;
 
-    html+='<div class="conv">Ваша прибыль с единицы сейчас: <b>'+fmt(m1)+' руб</b></div>';
-    html+='<div class="lost">Рентабельность '+pct(r1)+' процентов</div>';
+    html+='<div class="result-head">'
+        + '<div class="conv">Ваша прибыль с единицы сейчас<b>'+fmt(m1)+' руб</b></div>'
+        + '<div class="lost">Рентабельность '+pct(r1)+' процентов</div>'
+        + '</div>';
 
     if(m2<=0){
       html+='<div class="warn">При такой скидке цена падает до '+fmt(p2)+' рублей, а это ниже себестоимости. Каждая проданная единица приносит убыток '+fmt(-m2)+' рублей. Отработать такую скидку объемом невозможно.</div>';
@@ -149,7 +324,12 @@
     copyText='Посчитала: скидка '+pct(d)+' процентов срезает мою прибыль на '+pct(drop)+' процентов. Чтобы вернуть свое, продавать надо на '+pct(growth)+' процентов больше.';
   }
 
-  [P,C,D].forEach(function(el){ el.addEventListener('input',calc); });
+  [P,C,D].forEach(function(el){
+    el.addEventListener('input',calc);
+    el.addEventListener('wheel',function(e){
+      if(document.activeElement===el){ el.blur(); e.preventDefault(); }
+    },{passive:false});
+  });
 
   document.getElementById('copy').addEventListener('click',function(){
     var btn=this;
@@ -161,7 +341,7 @@
       var ta=document.createElement('textarea');
       ta.value=copyText; ta.style.position='fixed'; ta.style.opacity='0';
       document.body.appendChild(ta); ta.select();
-      try{ document.execCommand('copy'); done(); }catch(e){}
+      try{ document.execCommand('copy'); done(); }catch(e){ btn.textContent='Не вышло, скопируйте вручную'; }
       document.body.removeChild(ta);
     }
   });
