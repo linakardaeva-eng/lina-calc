@@ -109,7 +109,6 @@
     border:1px solid var(--line); border-radius:var(--radius-sm);
     padding:20px 22px; transition:border-color .15s ease, transform .12s ease;
   }
-  a.tile:hover{border-color:var(--blue); transform:translateY(-1px)}
   .tile.soon{opacity:.62}
   .tag{
     display:inline-block; font-size:11px; font-weight:700; letter-spacing:.1em;
@@ -119,7 +118,24 @@
   .tag.soon{background:#EFE8DA; color:var(--mute)}
   .tile .t{font-size:19px; font-weight:700; color:var(--blue); letter-spacing:-.01em; margin-bottom:5px}
   .tile .d{font-size:14.5px; color:var(--blue-soft); line-height:1.45}
-  .tile .go{display:inline-block; margin-top:11px; font-size:14.5px; font-weight:600; color:var(--orange)}
+  .tile .acts{display:flex; flex-wrap:wrap; gap:8px; margin-top:13px}
+  .tile .acts a{
+    display:inline-block; text-decoration:none; padding:10px 15px; border-radius:11px;
+    font-size:14.5px; font-weight:600; line-height:1.3;
+    transition:border-color .15s ease, background .15s ease, transform .12s ease;
+  }
+  .tile .acts a.go{background:var(--orange); color:#fff; border:1.5px solid var(--orange)}
+  .tile .acts a.go:hover{background:var(--orange-dark); border-color:var(--orange-dark); transform:translateY(-1px)}
+  .tile .acts a.more{background:var(--surface); color:var(--blue); border:1.5px solid var(--line-strong)}
+  .tile .acts a.more:hover{border-color:var(--blue); transform:translateY(-1px)}
+  .soc{display:grid; gap:10px; margin-bottom:6px}
+  .soc a{
+    display:block; text-decoration:none; background:var(--surface); border:1.5px solid var(--line-strong);
+    border-radius:var(--radius-sm); padding:14px 18px; transition:border-color .15s ease, transform .12s ease;
+  }
+  .soc a:hover{border-color:var(--blue); transform:translateY(-1px)}
+  .soc .n{font-size:15.5px; font-weight:700; color:var(--blue)}
+  .soc .d{font-size:14px; color:var(--blue-soft); line-height:1.45; margin-top:2px}
   .steps{margin:0 0 26px; padding:0; list-style:none}
   .steps li{
     display:flex; gap:11px; align-items:flex-start;
@@ -144,19 +160,24 @@
     </ul>
 
     <div class="grid">
-      <a class="tile" id="tile-zayavki" href="zayavki/">
+      <div class="tile">
         <span class="tag live">Работает</span>
         <div class="t">Потери на заявках</div>
         <div class="d">Сколько стоит каждый пункт конверсии и сколько вы недозарабатываете на тех, кого не дожали.</div>
-        <span class="go">Посчитать</span>
-      </a>
+        <div class="acts">
+          <a class="go" id="tile-zayavki" href="zayavki/">Посчитать</a>
+          <a class="more" href="https://t.me/linakardaeva/67">Посмотреть разбор</a>
+        </div>
+      </div>
 
-      <a class="tile" id="tile-skidka" href="skidka/">
+      <div class="tile">
         <span class="tag live">Работает</span>
         <div class="t">Цена скидки</div>
         <div class="d">На сколько надо вырасти в объеме, чтобы скидка окупилась, и когда она просто съедает прибыль.</div>
-        <span class="go">Посчитать</span>
-      </a>
+        <div class="acts">
+          <a class="go" id="tile-skidka" href="skidka/">Посчитать</a>
+        </div>
+      </div>
 
       <div class="tile soon">
         <span class="tag soon">Скоро</span>
@@ -167,9 +188,12 @@
   </div>
 
   <div class="act">
-    <h2>Что дальше</h2>
-    <a class="btn pri" href="https://t.me/linakardaeva">Разборы к калькуляторам в моем канале</a>
-    <p class="hint">Под каждый калькулятор лежит разбор: что означает ваша цифра и где искать причины в своем бизнесе.</p>
+    <h2>Больше разборов и практики</h2>
+    <div class="soc">
+      <a href="https://t.me/linakardaeva"><div class="n">Telegram</div><div class="d">Подробные разборы, кейсы и инструменты для бизнеса</div></a>
+      <a href="https://www.threads.com/@lina_kardaeva"><div class="n">Threads</div><div class="d">Короткие наблюдения о деньгах, продажах и управлении</div></a>
+      <a href="https://www.instagram.com/lina_kardaeva/"><div class="n">Instagram</div><div class="d">Видео, примеры и разборы бизнес-ситуаций</div></a>
+    </div>
     <p class="offer">Нужен калькулятор под вашу задачу: <a href="https://t.me/Lina_kardaeva">напишите мне в Telegram</a>.</p>
   </div>
 
