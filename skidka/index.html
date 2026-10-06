@@ -102,15 +102,29 @@
     a.btn,button.btn{padding:16px 18px; font-size:15.5px}
   }
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="../assets/theme.css">
 </head>
 <body>
+<div class="bg" aria-hidden="true"><i></i><i></i><i></i></div>
+<a class="brand" href="../"><img src="../img/lina.jpg" alt="" width="36" height="36"><span><b>Лина Кардаева</b> · все калькуляторы</span></a>
+
 
 <div class="page">
 
   <div class="card">
-    <div class="eyebrow">Калькулятор</div>
+    <div class="art" aria-hidden="true">
+        <svg viewBox="0 0 150 120">
+          <rect class="bar" x="18" y="62" width="16" height="44" rx="4" fill="#C9D6E8"/>
+          <rect class="bar" x="40" y="46" width="16" height="60" rx="4" fill="#1F3A5F"/>
+          <g class="tagsvg">
+            <path d="M70 34h44l14 26-14 26H70z" fill="#E8873B"/>
+            <circle cx="80" cy="60" r="5" fill="#FFFDF9"/>
+            <text x="102" y="67" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="800" font-size="20" fill="#FFFDF9">%</text>
+          </g>
+        </svg>
+      </div><div class="eyebrow">Калькулятор</div>
     <h1>Сколько стоит ваша скидка</h1>
-    <p class="sub">Три цифры, которые вы и так знаете. Считает сразу, ничего не сохраняет и не спрашивает ваши контакты.</p>
+    <p class="sub">3 цифры, которые вы и так знаете. Считает сразу, ничего не сохраняет и не спрашивает ваши контакты.</p>
 
     <div class="promise"><i></i><span>После расчета покажу, сколько на самом деле стоит ваша скидка и на каких условиях ее имеет смысл давать.</span></div>
 
@@ -123,7 +137,7 @@
       <input id="c" type="number" inputmode="decimal" min="0" placeholder="например, 70000">
     </div>
     <div class="field">
-      <label for="d">Размер скидки, процентов</label>
+      <label for="d">Размер скидки, %</label>
       <input id="d" type="number" inputmode="decimal" min="0" max="100" placeholder="например, 10">
     </div>
   </div>
@@ -220,7 +234,7 @@
       return;
     }
     if(d>=100){
-      out.innerHTML='<div class="warn">Скидка сто процентов и выше это уже не скидка. Проверьте цифру.</div>';
+      out.innerHTML='<div class="warn">Скидка 100% и выше это уже не скидка. Проверьте цифру.</div>';
       act.className='act hidden';
       return;
     }
@@ -231,11 +245,11 @@
     if(m2<=0){
       html+='<div class="result-head">'
           + '<div class="conv">Ваша прибыль с единицы сейчас<b>'+fmt(m1)+' руб</b></div>'
-          + '<div class="lost">Рентабельность '+pct(r1)+' процентов</div>'
+          + '<div class="lost">Рентабельность '+pct(r1)+'%</div>'
           + '</div>';
       html+='<div class="warn">При такой скидке цена падает до '+fmt(p2)+' рублей, а это ниже себестоимости. Каждая проданная единица приносит убыток '+fmt(-m2)+' рублей. Отработать такую скидку объемом невозможно.</div>';
       out.innerHTML=html;
-      copyText='Посчитала: скидка '+pct(d)+' процентов уводит меня ниже себестоимости.';
+      copyText='Посчитала: скидка '+pct(d)+'% уводит меня ниже себестоимости.';
       return;
     }
 
@@ -250,26 +264,26 @@
 
     html+='<div class="row">'
         + '<div class="t">Ваша прибыль с единицы сейчас</div>'
-        + '<div class="m">цена '+fmt(p)+' руб, себестоимость '+fmt(c)+' руб, рентабельность '+pct(r1)+' процентов</div>'
+        + '<div class="m">цена '+fmt(p)+' руб, себестоимость '+fmt(c)+' руб, рентабельность '+pct(r1)+'%</div>'
         + '<div class="y">прибыль '+fmt(m1)+' руб</div>'
         + '</div>';
 
     html+='<div class="row">'
-        + '<div class="t">После скидки '+pct(d)+' процентов</div>'
-        + '<div class="m">цена '+fmt(p2)+' руб, себестоимость та же, рентабельность '+pct(r2)+' процентов</div>'
+        + '<div class="t">После скидки '+pct(d)+'%</div>'
+        + '<div class="m">цена '+fmt(p2)+' руб, себестоимость та же, рентабельность '+pct(r2)+'%</div>'
         + '<div class="y">прибыль '+fmt(m2)+' руб</div>'
         + '</div>';
 
     html+='<div class="row">'
         + '<div class="t">Прибыль с единицы упала на</div>'
-        + '<div class="m">скидка была '+pct(d)+' процентов, а прибыли стало меньше на</div>'
-        + '<div class="y">'+pct(drop)+' процентов</div>'
+        + '<div class="m">скидка была '+pct(d)+'%, а прибыли стало меньше на</div>'
+        + '<div class="y">'+pct(drop)+'%</div>'
         + '</div>';
 
     html+='<p class="fine">Расчет оценочный и по одной единице. Он не говорит, давать скидку или нет. Он показывает, во что она обходится.</p>';
     out.innerHTML=html;
 
-    copyText='Посчитала: скидка '+pct(d)+' процентов срезает мою прибыль с единицы на '+pct(drop)+' процентов. Чтобы сохранить ту же прибыль, объем продаж должен стать '+fmtK(k)+' от текущего, это +'+pct(growth)+'%.';
+    copyText='Посчитала: скидка '+pct(d)+'% срезает мою прибыль с единицы на '+pct(drop)+'%. Чтобы сохранить ту же прибыль, объем продаж должен стать '+fmtK(k)+' от текущего, это +'+pct(growth)+'%.';
   }
 
   [P,C,D].forEach(function(el){

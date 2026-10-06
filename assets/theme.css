@@ -1,0 +1,106 @@
+/* Общий стиль калькуляторов Лины (в стиле витрины 06.10.2026).
+   Подключается ПОСЛЕ встроенного <style> страницы и переопределяет только внешний вид.
+   Классы и id, на которые опирается JS калькуляторов, не меняются. */
+:root{
+  --bg:#F5EFE2; --surface:#FFFDF9; --surface2:#F8F2E6; --surface-2:#F8F2E6;
+  --blue:#1F3A5F; --soft:#4A6283; --blue-soft:#4A6283; --blue-tint:#E3EAF3;
+  --orange:#E8873B; --orange-dark:#D2762C; --orange-tint:#FBE9D8;
+  --text:#3A4252; --body:#3A4252; --mute:#8C8577; --line:#E8DFCF; --strong:#D6C9B4; --line-strong:#D6C9B4;
+  --radius:24px; --small:16px; --radius-sm:16px;
+  --shadow:0 1px 2px rgba(31,58,95,.05), 0 18px 40px -18px rgba(31,58,95,.22);
+  --font:"Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg) !important; font-family:var(--font) !important; color:var(--body); overflow-x:hidden;
+  display:block !important; min-height:100dvh; padding:40px 16px 36px !important}
+input,select,button{font-family:var(--font) !important}
+.page{max-width:640px !important; margin:0 auto}
+
+/* фон */
+.bg{position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none}
+.bg i{position:absolute; border-radius:50%; filter:blur(70px); opacity:.45; animation:lc-float 22s ease-in-out infinite alternate}
+.bg i:nth-child(1){width:420px; height:420px; background:#F3C9A0; top:-120px; left:-120px}
+.bg i:nth-child(2){width:380px; height:380px; background:#C9D6E8; top:35%; right:-150px; animation-duration:26s}
+.bg i:nth-child(3){width:300px; height:300px; background:#F6D9BC; bottom:-120px; left:25%; animation-duration:30s}
+@keyframes lc-float{to{transform:translate(60px,40px) scale(1.12)}}
+
+/* ссылка на витрину с фото */
+.brand{display:flex; align-items:center; justify-content:center; gap:10px; margin:0 auto 22px; width:max-content; max-width:100%;
+  text-decoration:none; color:var(--blue-soft); font-size:14px; padding:6px 14px 6px 6px; border-radius:999px;
+  background:rgba(255,253,249,.7); border:1px solid var(--line); transition:transform .2s ease-out}
+.brand:hover{transform:translateY(-2px)}
+.brand img{width:36px; height:36px; border-radius:50%; object-fit:cover; border:2px solid var(--orange)}
+.brand b{color:var(--blue)}
+
+/* карточки */
+.card,.result{border-radius:var(--radius) !important; box-shadow:var(--shadow) !important; border:1px solid var(--line) !important;
+  animation:lc-up .5s ease-out both}
+.art{height:130px; border-radius:var(--small); margin:-6px 0 20px; display:grid; place-items:center;
+  background:linear-gradient(160deg,var(--surface2),var(--blue-tint))}
+.art svg{width:140px; height:110px; overflow:visible}
+.eyebrow{display:table !important; margin:0 auto 14px !important; background:var(--orange-tint); color:#B5641F !important;
+  padding:6px 13px; border-radius:999px; font-size:11.5px !important}
+h1,h2{text-align:center !important; color:var(--blue)}
+h1{font-weight:800 !important; letter-spacing:-.025em !important}
+.card h2{font-weight:800}
+.act h2{color:var(--mute) !important}
+.sub,.tip,.hint,.offer,.fine,.m,.explain,.lost,.warn,.question span,details p,.note span,.promise span,.row .d{text-align:justify; hyphens:auto; -webkit-hyphens:auto}
+.sub{text-align-last:center}
+.promise,.note{border-radius:var(--small) !important}
+.question{border-radius:var(--small) !important; background:var(--surface)}
+.question b{text-align:center}
+details summary{text-align:center}
+
+/* поля */
+input,select{border-radius:var(--small) !important; transition:border-color .2s ease-out, box-shadow .2s ease-out !important}
+
+/* результат */
+.result-head,.head{border-radius:var(--radius) !important; text-align:center;
+  background:linear-gradient(135deg,#1F3A5F,#2C4F7C) !important; box-shadow:0 18px 36px -18px rgba(31,58,95,.7)}
+.out:not(.hidden),.act:not(.hidden){animation:lc-up .45s ease-out both}
+.row{border-radius:var(--small) !important; box-shadow:0 1px 2px rgba(31,58,95,.04); transition:transform .2s ease-out}
+.row:hover{transform:translateY(-2px)}
+.row .t,.row .label,.row .y,.row .value,.row .profit{text-align:center}
+.grid .row,.out .row{animation:lc-up .45s ease-out both}
+.out .row:nth-child(2),.grid .row:nth-child(2){animation-delay:.06s}
+.out .row:nth-child(3),.grid .row:nth-child(3){animation-delay:.12s}
+.out .row:nth-child(4),.grid .row:nth-child(4){animation-delay:.18s}
+@keyframes lc-up{from{opacity:0; transform:translateY(18px)}to{opacity:1; transform:none}}
+
+/* кнопки */
+.btn,a.btn,button.btn{border-radius:14px !important; font-weight:700 !important; min-height:48px;
+  transition:transform .2s ease-out, background-color .2s ease-out, border-color .2s ease-out !important}
+.btn:hover{transform:translateY(-2px)}
+a.btn.pri,button.btn.pri,#analysis{background:var(--orange) !important; border-color:var(--orange) !important; color:#fff !important;
+  box-shadow:0 10px 22px -10px rgba(232,135,59,.9)}
+a.btn.pri:hover,#analysis:hover{background:var(--orange-dark) !important}
+a:focus-visible,button:focus-visible{outline:3px solid var(--orange); outline-offset:3px}
+.offer{text-align-last:center}
+footer{text-align:center}
+
+/* анимации иллюстраций (как на витрине) */
+.drop{animation:lc-drop 2.6s ease-in infinite}
+.drop:nth-of-type(2){animation-delay:.85s}
+.drop:nth-of-type(3){animation-delay:1.7s}
+@keyframes lc-drop{0%{transform:translateY(-18px); opacity:0}15%{opacity:1}70%{transform:translateY(58px); opacity:1}100%{transform:translateY(70px); opacity:0}}
+.leak{animation:lc-leak 2.6s ease-in infinite 1.3s}
+@keyframes lc-leak{0%,40%{transform:translate(0,0); opacity:0}50%{opacity:1}100%{transform:translate(34px,30px); opacity:0}}
+.tagsvg{transform-origin:75px 60px; animation:lc-swing 3.2s ease-in-out infinite}
+@keyframes lc-swing{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+.bar{transform-origin:bottom; animation:lc-grow 3.2s ease-in-out infinite}
+.bar:nth-of-type(2){animation-delay:.4s}
+@keyframes lc-grow{0%,100%{transform:scaleY(.55)}50%{transform:scaleY(1)}}
+.orbit{transform-origin:75px 60px; animation:lc-spin 7s linear infinite}
+@keyframes lc-spin{to{transform:rotate(1turn)}}
+
+@media (max-width:560px){
+  body{padding:26px 16px 28px !important}
+  .art{height:110px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before{animation:none !important; transition:none !important}
+}
+
+/* короткие строки внутри блоков результата: по ширине, последняя строка по центру */
+.result-head .lost,.result-head .conv,.head .muted,.head .label{text-align:center}
+.row .m,.row .explain,.lost,.warn,.fine,.hint{text-align-last:center}
